@@ -3,6 +3,9 @@ package com.mapgenius;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.Tab;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.location.LocationClient;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -11,12 +14,22 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 //https://www.youtube.com/watch?v=FKd1yVpIXHo for setting it up
 public class MainActivity extends SherlockFragmentActivity {
-
+	
+	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
+		initializeActionBarLayout();
+		
+		//Now testing LocationClient
+		if(checkIfGooglePlay()){
+			LocationClient aClient;
+		}
+	}
+	private void initializeActionBarLayout() {
 		ActionBar actionbar = getSupportActionBar();
 		actionbar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 		actionbar.setTitle("Tabbed Layout");
@@ -41,6 +54,16 @@ public class MainActivity extends SherlockFragmentActivity {
 		actionbar.addTab(Frag3Tab);
 		actionbar.addTab(Frag4Tab);
 	}
+	
+	
+	protected Boolean checkIfGooglePlay() {
+		int errorCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+		if (errorCode != ConnectionResult.SUCCESS) {
+			return false; 
+		}
+		return true;
+	}
+	
 	class MyTabsListener implements ActionBar.TabListener {
 		public Fragment fragment;
 		
